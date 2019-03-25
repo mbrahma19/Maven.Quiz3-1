@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -17,20 +18,19 @@ public class ArrayUtility<SomeType> {
     }
 
     public SomeType findOddOccurringValue() {
-        SomeType result = null;
-        for(SomeType st : array){
-            if((getNumberOfOccurrences(st) % 2) == 1){
-                result = st;
-                break;
-            }
-        }
-        return result;
+        Predicate<SomeType> predicate = s -> (getNumberOfOccurrences(s) % 2) == 1;
+        return findWhatIsNeeded(predicate);
     }
 
     public SomeType findEvenOccurringValue() {
+        Predicate<SomeType> predicate = s -> (getNumberOfOccurrences(s) % 2) == 0;
+        return findWhatIsNeeded(predicate);
+    }
+
+    private SomeType findWhatIsNeeded(Predicate<SomeType> predicate){
         SomeType result = null;
         for(SomeType st : array){
-            if((getNumberOfOccurrences(st) % 2) == 0){
+            if(predicate.test(st)){
                 result = st;
                 break;
             }
@@ -39,13 +39,11 @@ public class ArrayUtility<SomeType> {
     }
 
     public Integer getNumberOfOccurrences(SomeType valueToEvaluate) {
-        Integer counter = 0;
-        for(SomeType st : array){
-            if(st.equals(valueToEvaluate)){
-                counter++;
-            }
-        }
-        return counter;
+
+        Predicate<SomeType> predicate = someType -> someType.equals(valueToEvaluate);
+        Long result = Arrays.stream(array).filter(predicate).count();
+        return result.intValue();
+
     }
 
     public SomeType[] filter(Function<SomeType, Boolean> predicate) {

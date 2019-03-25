@@ -11,18 +11,21 @@ public class WaveGenerator {
         String lowerStr = str.toLowerCase();
 
         for(int i = 0 ; i < lowerStr.length(); i++){
-
             if(isAlphaString(String.valueOf(lowerStr.charAt(i)))){
-
-                char[] charArray = lowerStr.toCharArray();
-                charArray[i] = Character.toUpperCase(charArray[i]);
-                result.add(String.valueOf(charArray));
+                createString(result, lowerStr, i);
             }
         }
         return result.toArray(new String[result.size()]);
     }
 
+    private static void createString(ArrayList<String> result, String lowerStr, int i) {
+        char[] charArray = lowerStr.toCharArray();
+        charArray[i] = Character.toUpperCase(charArray[i]);
+        result.add(String.valueOf(charArray));
+    }
+
     public static Boolean isAlphaString(String string) {
         return string.replace(" ", "").matches("[a-zA-Z]+");
     }
+
 }
