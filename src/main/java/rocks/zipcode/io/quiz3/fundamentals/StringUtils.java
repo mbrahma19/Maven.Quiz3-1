@@ -32,6 +32,6 @@ public class StringUtils {
     }
 
     public static Integer getNumberOfSubStrings(String input){
-        return (input.length()*(input.length()+1))/2 -1;
+        return (input.length()*(input.length()+1))/2;
     }
 }
